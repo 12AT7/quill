@@ -113,16 +113,15 @@ endif ()
 if (BUILD_SHARED_LIBS)
     set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
     set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-endif ()
-
-# Add as a library
-add_library(${TARGET_NAME} "")
-add_library(${TARGET_NAME}::${TARGET_NAME} ALIAS ${TARGET_NAME})
-
-if (BUILD_SHARED_LIBS)
+	add_library(${TARGET_NAME} SHARED "")
+	add_library(${TARGET_NAME}::${TARGET_NAME} ALIAS ${TARGET_NAME})
     set_property(TARGET ${TARGET_NAME} PROPERTY CXX_VISIBILITY_PRESET default)
     set_property(TARGET ${TARGET_NAME} PROPERTY VISIBILITY_INLINES_HIDDEN OFF)
+else()
+	add_library(${TARGET_NAME} "")
+	add_library(${TARGET_NAME}::${TARGET_NAME} ALIAS ${TARGET_NAME})
 endif ()
+
 
 if (QUILL_NO_EXCEPTIONS)
     target_compile_definitions(${TARGET_NAME} PUBLIC -DQUILL_NO_EXCEPTIONS)
